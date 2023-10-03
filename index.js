@@ -23,7 +23,7 @@ app.use((request,response,next)=>{
 let persons = [
     { 
       "id": 1,
-      "name": "Arto Hellas", 
+      "name": "Arto Hella", 
       "number": "040-123456"
     },
     { 
@@ -80,7 +80,7 @@ app.post('/api/persons',(request,response)=>{
       })
     }
 
-    const newEntries = {
+    const newEntries ={
       id: createNewId(),
       name: body.name,
       number: body.number
