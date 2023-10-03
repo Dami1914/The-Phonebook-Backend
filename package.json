@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui":"@powershell remove-item -recurse -force dist && cd ../The-Phonebook && npm run build && @powershell copy-item -recurse dist",
+    "deploy:all":"npm run build:ui && git add . && git commit -m build:ui && git push"
   },
   "author": "damilola jibowu",
   "license": "ISC",
