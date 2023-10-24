@@ -99,10 +99,12 @@ app.post('/api/persons',(request,response,next)=>{
   })
     
 })
-app.get('/api/persons',(request,response)=>{
+app.get('/api/persons',(request,response,next)=>{
     Person.find({}).then((data)=>{
       response.json(data)
-      
+    })
+    .catch((err)=>{
+      next(err)
     })
 })
 
