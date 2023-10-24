@@ -7,14 +7,17 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "build:ui":"@powershell remove-item -recurse -force dist && cd ../../cd part2/The-Phonebook && npm run build && @powershell copy-item -recurse dist cd ../../part3/The-Phonebook-Backend",
-    "deploy:all":"npm run build:ui && git add . && git commit -m build:ui && git push"
+    "build:ui": "@powershell remove-item -recurse -force dist && cd ../../cd part2/The-Phonebook && npm run build && @powershell copy-item -recurse dist cd ../../part3/The-Phonebook-Backend",
+    "deploy:all": "npm run build:ui && git add . && git commit -m build:ui && git push",
+    "debug": "node --inspect index.js"
   },
   "author": "damilola jibowu",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "mongoose": "^7.6.3",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
