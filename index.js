@@ -76,7 +76,7 @@ app.post('/api/persons',(request,response,next)=>{
     })
     if(!body.name || !body.number){
       return response.status(400).json({
-        error: "a field is missing in the data entered"
+        error: "field is missing in the data entered"
       })
     }
     Person.find({name:body.name, number:body.number})
