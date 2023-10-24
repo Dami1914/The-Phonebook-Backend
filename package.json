@@ -11,6 +11,9 @@
     "deploy:all": "git add . && git commit -m build:ui && git push",
     "debug": "node --inspect index.js"
   },
+  "engines": {
+    "node": "14.20.1"
+  },
   "author": "damilola jibowu",
   "license": "ISC",
   "dependencies": {
