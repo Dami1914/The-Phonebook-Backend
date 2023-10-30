@@ -5,13 +5,15 @@ const cors = require('cors')
 const Person = require('./models/peopleContact')
 const app = express()
 
+app.use(express.json())
+
 morgan.token('body',(req,res)=>{
     return JSON.stringify(req.body)
 })
 
 app.use(cors())
 app.use(express.static('dist'))
-app.use(express.json())
+
 
 app.use(morgan(':method :url :status :response-time ms - :body'))
 
@@ -20,15 +22,12 @@ app.use((request,response,next)=>{
   next()
 })
 
-
-
 app.put('/api/persons/:id',(request,response,next)=>{
       const body = request.body
       const person = {
         name: body.name,
         number: body.number
       }
-
       Person.findByIdAndUpdate(request.params.id,person,{new:true, runValidators: true, contex:"query"})
       .then((result)=>{
         response.json(result)
@@ -74,26 +73,22 @@ app.post('/api/persons',(request,response,next)=>{
       name: body.name,
       number: body.number
     })
-    if(!body.name || !body.number){
-      return response.status(400).json({
-        error: "field is missing in the data entered"
-      })
-    }
+   
     Person.find({name:body.name, number:body.number})
     .then((result)=>{
       
-      if(result === null){
+      if(result.length > 0){
         return response.status(400).json({
-          error: "name must be unique"
+          error: "name available"
         })
       }
 
       person.save().then((result)=>{
         response.send(person)
+      }).catch((err)=>{
+        next(err)
       })
-      .catch((error)=>{
-        next(error)
-      })
+
   }).catch((err)=>{
     next(err)
   })

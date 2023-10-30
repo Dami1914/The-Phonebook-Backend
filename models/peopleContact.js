@@ -11,7 +11,7 @@ mongoose.connect(url)
     console.log("connected to database successfully")
 })
 .catch((error)=>{
-    console.log("couldn't connect to the database", error)
+    console.log("couldn't connect to the database")
 })
 
 
@@ -23,15 +23,32 @@ const phonebookSchema = new mongoose.Schema({
     },
     number: {
         type: Number,
-        maxLength: 11,
-        minLength: 11,
-        required: true
+        required: true,
+        validate:{
+            validator:(value)=> {
+                if(value.toString().length !== 10 ){
+                    throw new Error(`contact length must be 11 but you provided ${value.toString().length}`)
+                }
+                return true 
+            },
+           
+        }
     }
 })
+
+function capitalizeFirstChar(str){
+    // text.split(" ") turns strings into an array also considering the space between them (" ") e.g input "damilola jibowu" output ["damilola", "jibowu"] 
+    return str.split(" ").map((ele)=>{
+      return ele.charAt(0).toUpperCase() + ele.slice(1)
+      // join(" ") turns content of an array to single a string having also considering the space in between them (" ")
+    }).join(" ")
+}
 
  phonebookSchema.set('toJSON',{
     transform:((document,newDocument)=>{
         newDocument.id = newDocument._id.toString()
+        newDocument.name = capitalizeFirstChar(newDocument.name)
+        newDocument.number = `0${newDocument.number.toString()}`
         delete newDocument._id
         delete newDocument.__v
     })
