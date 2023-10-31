@@ -22,16 +22,22 @@ const phonebookSchema = new mongoose.Schema({
         required: true
     },
     number: {
-        type: Number,
+        type: String,
+        minLength: 8,
         required: true,
         validate:{
-            validator:(value)=> {
-                if(value.toString().length !== 10 ){
-                    throw new Error(`contact length must be 11 but you provided ${value.toString().length}`)
+           validator:(value)=>{
+            const contact = value.split("-")
+            if(contact[0].length < 2 || contact[0].length > 3){
+                throw new Error("not a valid phone number")
+            }else{
+                
+                if( isNaN(Number(contact.join(""))) ){
+                    throw new Error("the value you provided is not a number ")
                 }
-                return true 
-            },
-           
+            }
+            return true
+           }
         }
     }
 })
@@ -48,7 +54,6 @@ function capitalizeFirstChar(str){
     transform:((document,newDocument)=>{
         newDocument.id = newDocument._id.toString()
         newDocument.name = capitalizeFirstChar(newDocument.name)
-        newDocument.number = `0${newDocument.number.toString()}`
         delete newDocument._id
         delete newDocument.__v
     })

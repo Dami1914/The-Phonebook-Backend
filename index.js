@@ -30,7 +30,7 @@ app.put('/api/persons/:id',(request,response,next)=>{
       }
       Person.findByIdAndUpdate(request.params.id,person,{new:true, runValidators: true, contex:"query"})
       .then((result)=>{
-        response.json(result)
+        response.send(result)
         console.log("Data updated successfully",result)
       })
       .catch((error)=>{
@@ -58,7 +58,8 @@ app.get('/api/persons/:id',(request,response,next)=>{
 app.delete('/api/persons/:id',(request,response,next)=>{
     Person.findByIdAndRemove(request.params.id)
       .then((result)=>{
-          response.status(204).end()
+          
+          response.send(result).end()
           console.log(result,"data removed successfully")
 
       }).catch((error)=>{
